@@ -15,7 +15,7 @@
 ## 2. Related Work
 - 관련 기업 1: https://www.scribbr.com/ai-detector/
 - 관련 기업 2: https://quillbot.com/ai-content-detector
-- 관련 기업 3 ~: detect ai generated text 등으로 검색하면 더 많이 있음  
+- 관련 기업 3 ~: detect ai generated text 등으로 검색하면 더 많이 있음    
 => 해외 기업의 경우 다국어 지원을 하지만 한국어 전용은 없다.
 
 - 관련 Competition: https://www.kaggle.com/competitions/llm-detect-ai-generated-text  
@@ -27,7 +27,7 @@
 - 방법: 한국어로 이뤄진 Source 자연어 데이터셋을 구하고, 해당 데이터를 GPT-4o-mini 등의 LLM으로 재구성해서 AI Generated Text / Human Written Text 이진 분류 데이터셋을 구축한다.
 
 ## 4. Methods
-학습 방법 - 구축한 이진 분류 데이터셋으로 파인튜닝
+학습 방법 - 구축한 이진 분류 데이터셋으로 파인튜닝  
 모델 선정 - KoBERT
 
 ## 5. Experiments Analysis
