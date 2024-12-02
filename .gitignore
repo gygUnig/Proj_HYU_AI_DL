@@ -1,3 +1,8 @@
 /dataset/
 config.yaml
 *.csv
+/wandb/
+!/df_final_train.csv
+!/df_final_valid.csv
+!/df_final_test.csv
+/results_*
