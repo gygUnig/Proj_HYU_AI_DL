@@ -2,7 +2,10 @@
 config.yaml
 *.csv
 /wandb/
-!/df_final_train.csv
-!/df_final_valid.csv
-!/df_final_test.csv
+!/df_final_train_v1.csv
+!/df_final_valid_v1.csv
+!/df_final_test_v1.csv
+!/df_final_train_v2.csv
+!/df_final_valid_v2.csv
+!/df_final_test_v2.csv
 /results_*
