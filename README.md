@@ -48,7 +48,10 @@
 
 이와 같이 기존의 AI 탐지 기술 및 연구는 주로 영어를 중심으로 이루어져 있으며, 한국어 데이터셋의 부재와 한국어 탐지 모델 부재라는 명확한 한계점이 존재한다. 이는 **한국어 AI 생성 텍스트 탐지를 위한 데이터셋 구축 및 모델 개발**이라는 본 연구 프로젝트의 필요성을 더욱 부각시킨다.
 
-## 3. Custom Dataset Construction
+## 3. Custom Dataset v1 Construction
+![Image](./ai-x-dl-figure1-dataset-v1-generation-pipeline.png)
+[Dataset v1 Generation Pipeline Figure]  
+
 - 한국어 AI Generated Text 분류 데이터셋이 존재하지 않기 때문에 직접 구축한다.
 - 한국어로 이뤄진 Base Source 자연어 데이터셋을 구하고, 해당 데이터를 GPT-4o-mini 등의 LLM으로 재구성해서 AI Generated Text / Human Written Text 이진 분류 데이터셋을 구축한다.
 - 3.1~3.3에 해당하는 코드는 [`1_dataset_preprocess.ipynb`](./1_dataset_preprocess.ipynb)에서 확인할 수 있다.
@@ -95,11 +98,19 @@
   ![Image](./fig6.png)
 
 ## 4. Methods
-학습 방법 - 구축한 이진 분류 데이터셋으로 파인튜닝  
-모델 선정 - KoBERT
+- 제작한 데이터셋은 Label이 0 혹은 1이 존재하는 Text 이진 분류 데이터셋이기 떄문에, Transformer Encoder 기반의 모델을 파인튜닝한다.
+- 대표적인 Encoder 기반 모델로 BERT가 존재하며, BERT 구조를 베이스로 파생된 다양한 모델들이 존재한다.
+- KoBERT는 기존 BERT-base-multilingual-cased 모델의 한국어 성능 한계로 인해 SKTBrain에서 BERT를 한글 위키데이터 기반으로 학습한 모델로, 우리 데이터셋은 한글로 구성되어 있기 때문에 대표적인 KoBERT를 baseline으로 사용했다.
+- 그러나 KoBERT의 경우 Release된지 오래된 모델이기 때문에 성능에 한계가 있을 것으로 예상하여, 여러 BERT 기반 모델을 실험에 사용하여 결과를 비교하였다.
+### 모델 선정
+- 
 
 ## 5. Experiments Analysis
 실험 결과 분석 내용 작성
 
-## 6. Conclusion
+## 6. Additional Dataset-v2
+![Image](./ai-x-dl-figure1-dataset-v2-generation-pipeline.png)
+[Dataset v2 Generation Pipeline Figure]  
+
+## 7. Conclusion
 결론 내용 작성
