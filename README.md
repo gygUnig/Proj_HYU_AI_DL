@@ -1,9 +1,8 @@
 # Detect AI-Generated Korean Text via KoBERT by Building Custom Dataset
 
 ### 한양대학교 2024년 2학기 AI+X:딥러닝 과목 프로젝트   
-기계공학부 2018013309 김승희   
-기계공학부 2018014002 유용준
-
+기계공학부 2018013309 김승희 : 코드 작성 / 커스텀 데이터셋 구축 / 실험 / 결과 분석 / 블로그 작성
+기계공학부 2018014002 유용준 : 데이터셋 조사 / 관련 기업 조사 / 선행 연구 조사 / 데이터셋 전처리 / 데이터 분석
 
 ## 1. Introduction
 ### 1.1 한국어 AI 생성 텍스트 탐지 기술의 중요성  
@@ -48,11 +47,11 @@
 
 이와 같이 기존의 AI 탐지 기술 및 연구는 주로 영어를 중심으로 이루어져 있으며, 한국어 데이터셋의 부재와 한국어 탐지 모델 부재라는 명확한 한계점이 존재한다. 이는 **한국어 AI 생성 텍스트 탐지를 위한 데이터셋 구축 및 모델 개발**이라는 본 연구 프로젝트의 필요성을 더욱 부각시킨다.
 
-## 3. Custom Dataset v1 Construction
+## 3. Custom Ko-Detect-AI-Dataset-v1 Construction
 ![Image](./ai-x-dl-figure1-dataset-v1-generation-pipeline.png)
-[Dataset v1 Generation Pipeline Figure]  
+[Ko-Detect-AI-Dataset-v1 Generation Pipeline Figure]  
 
-- 한국어 AI Generated Text 분류 데이터셋이 존재하지 않기 때문에 직접 구축한다.
+- 한국어 AI Generated Text 분류 데이터셋이 존재하지 않기 때문에 직접 구축하고, **Ko-Detect-AI-Dataset-v1**로 명명한다.
 - 한국어로 이뤄진 Base Source 자연어 데이터셋을 구하고, 해당 데이터를 GPT-4o-mini 등의 LLM으로 재구성해서 AI Generated Text / Human Written Text 이진 분류 데이터셋을 구축한다.
 - 3.1~3.3에 해당하는 코드는 [`1_dataset_preprocess.ipynb`](./1_dataset_preprocess.ipynb)에서 확인할 수 있다.
   
@@ -90,27 +89,87 @@
 ### 3.5 Human-Written Text vs AI-Generated Text Analysis
 1. Length 비교
   ![Image](./fig2.png)
+  - Human-Written Text과 AI-Generated Text의 Text Length를 비교하였다.
+  - 고루 분포되어 있는 Human-Written Text와 달리, AI-Generated Text는 600~800 사이의 Length를 가지는 경우가 많다는 것을 알 수 있다.
 2. 사용 빈도가 높은 단어 Top 20 비교 (공백 기준으로 단어 분리)
   ![Image](./fig3.png)
   ![Image](./fig4.png)
+  - 공백 기준으로 단어를 분리하여, 사용 빈도가 높은 단어를 비교하였다.
+  - Human-Written Text의 경우 '저는', '생각합니다', '때문에' 등의 단어 사용 빈도가 높은 반면, AI-Generated Text의 경우 '많은', '정말', '함께' 등의 단어 사용 빈도가 높다는 것을 알 수 있다.
 3. 사람만 쓰는 단어 VS AI만 쓰는 단어 (공백 기준으로 단어 분리)
   ![Image](./fig5.png)
   ![Image](./fig6.png)
+  - 공백 기준으로 단어를 분리하여, 오직 사람만 사용한 단어와 AI만 사용한 단어를 추출했다.
+  - '우리나라는', '인해서', '없지만', '아니지만' 등의 단어는 오직 사람만 사용했다는 것을 확인할 수 있다.
 
 ## 4. Methods
-- 제작한 데이터셋은 Label이 0 혹은 1이 존재하는 Text 이진 분류 데이터셋이기 떄문에, Transformer Encoder 기반의 모델을 파인튜닝한다.
-- 대표적인 Encoder 기반 모델로 BERT가 존재하며, BERT 구조를 베이스로 파생된 다양한 모델들이 존재한다.
-- KoBERT는 기존 BERT-base-multilingual-cased 모델의 한국어 성능 한계로 인해 SKTBrain에서 BERT를 한글 위키데이터 기반으로 학습한 모델로, 우리 데이터셋은 한글로 구성되어 있기 때문에 대표적인 KoBERT를 baseline으로 사용했다.
-- 그러나 KoBERT의 경우 Release된지 오래된 모델이기 때문에 성능에 한계가 있을 것으로 예상하여, 여러 BERT 기반 모델을 실험에 사용하여 결과를 비교하였다.
-### 모델 선정
-- 
+- 직접 제작한 **Ko-Detect-AI-Dataset-v1** 데이터셋은 0 또는 1로 라벨링된 이진 텍스트 분류 데이터셋이다. 이를 분류하기 위해 Transformer Encoder 기반의 모델을 파인튜닝하였다.
+- Encoder 기반 모델의 대표적인 예로 BERT(Bidirectional Encoder Representations from Transformers)가 있으며, 이는 다양한 NLP 태스크에서 뛰어난 성능을 보이는 모델로 널리 활용되고 있다. BERT는 텍스트의 문맥적 관계를 양방향으로 학습할 수 있는 Transformer 아키텍처를 사용하여 높은 성능을 발휘한다.
+- BERT 구조를 베이스로 파생된 다양한 모델들이 존재하는데, KoBERT는 기존 BERT 모델의 한국어 성능 한계로 인해 BERT를 한글 데이터 기반으로 학습한 모델이다. 우리 데이터셋은 한글로 구성되어 있기 때문에 이 KoBERT를 baseline으로 사용했다.
+- 그러나 KoBERT 자체는 공개된 지 오래된 모델이기 때문에 근본적으로 성능에 한계가 있을 가능성을 고려하여, KoBERT 외에도 여러 BERT 기반 모델을 실험에 사용하여 결과를 비교하였다.
+### 다양한 실험 모델 선정
+- google-bert/bert-base-uncased
+- google-bert/bert-base-multilingual-cased
+- skt/kobert-base-v1
+- klue/roberta-small
+- klue/roberta-base
+- microsoft/deberta-v3-xsmall
+- microsoft/deberta-v3-base
+- microsoft/deberta-v3-large
+- lighthouse/mdeberta-v3-base-kor-further
+- team-lucid/deberta-v3-base-korean
+- kykim/bert-kor-base
+- kakaobank/kf-deberta-base
+
+### 평가 Metric 선정
+- 해당 이진 분류 태스크의 성능 평가는 **F1 Score**를 기준으로 이루어졌다. F1 Score는 Precision과 Recall의 조화 평균으로, 모델의 예측 성능을 종합적으로 평가하는 데 효과적인 지표이다.
+- 이 때 Precision은 모델이 긍정(Positive)으로 예측한 샘플 중 실제로 긍정인 샘플의 비율을 의미하며, Recall은 실제로 긍정인 샘플 중 모델이 올바르게 긍정으로 예측한 비율을 의미한다.
+### Experiments Setting
+| Hyper Parameter     | Value   |
+|---------------|---------|
+| SEED          | 1       |
+| EPOCH         | 1       |
+| LR            | 5e-5    |
+| WEIGHT_DECAY  | 0.01    |
+| BATCH_SIZE    | 16      |
+- 하이퍼 파라미터는 모든 모델에 동일하게 위 표와 같은 값을 적용시켰다.
+- 실험 전부 NVIDIA A100 80GB PCIe GPU 환경에서 진행했다.
 
 ## 5. Experiments Analysis
-실험 결과 분석 내용 작성
+### Ko-Detect-AI-Dataset-v1 Results
+![Image](./test-v1-results-new.png)
+- BERT의 기본 모델인 bert-base-uncased의 경우 test dataset에 대해 F1 score 0.8337을 보였고, 한국어 데이터셋에 대해 학습된 kobert-base-v1 모델도 유사한 정확도를 보였다.
+- bert-base-uncased 모델에 비해 다국어로 학습된 bert-base-multilingual-cased 모델이 훨씬 높음을 확인할 수 있다.
+- skt/kobert-base-v1에 비해서 더욱 발전된 roberta, deberta 계열의 모델이 0.99이상의 F1 score를 보인다.
+- 또한, deberta-v3-large 모델의 경우 validation, test 모두 f1 score 1을 달성하여 주어진 Task를 완벽히 수행하는 것을 알 수 있다.
+- 5.Experiments Analysis의 코드는 [`3_train_valid_inference_v1.ipynb`](./3_train_valid_inference_v1.ipynb)에서 확인할 수 있다.
+- 전반적으로 모든 모델이 우리가 구축한 데이터셋을 쉽게 해결하는 것을 분석할 수 있었고, 추가적으로 데이터셋의 난이도를 조정하는 계기가 되었다.
 
-## 6. Additional Dataset-v2
-![Image](./ai-x-dl-figure1-dataset-v2-generation-pipeline.png)
-[Dataset v2 Generation Pipeline Figure]  
+
+## 6. Additional Dataset: Ko-Detect-AI-Dataset-v2
+![Image](./ai-x-dl-figure1-dataset-v2-generation-pipeline.png)  
+- [Ko-Detect-AI-Dataset-v2 Generation Pipeline Figure]  
+
+### Ko-Detect-AI-Dataset-v1의 문제점 분석
+- **Ko-Detect-AI-Dataset-v1**의 경우에 AI-Generated Text가 전부 GPT-4o-mini로 구성돼서 데이터 다양성에 있어 부족한 점이 존재한다.
+- 특히, Train Data와 Test Data에서 사용된 LLM이 전부 GPT-4o-mini이기에 Text의 Distribution이 유사하다. 즉, Train data에서 분류 모델이 GPT-4o-mini의 특성에 대해서 학습했기 때문에 당연히 GPT-4o-mini로 만든 Test dataset에 대해서 예측을 잘 할 수밖에 없어 f1 score가 거의 0.99에 가깝게 나오는 것과 같이 데이터셋의 분류 난이도가 쉬울 수 있다는 분석을 진행했다.
+- 이에 따라서, Test dataset에 대해서 GPT-4o-mini뿐만 아니라 여러 9가지 종류의 여러 LLM들을 활용해서 AI-Generated Text를 구성했고 이를 **Ko-Detect-AI-Dataset-v2**로 명명했다.
+- Train, Valid Dataset은 v1과 동일하고 Test Dataset을 다르게 구성하였다. 분류 모델은 오직 GPT-4o-mini로 이뤄진 학습 과정을 거친 후에 LLama 3.1 8b, Qwen 2.5 14B, GPT-4o 등 다양한 LLM으로 구성된 Test dataset에 대해서 예측을 하게 된다.
+- 6.Additional Dataset: Ko-Detect-AI-Dataset-v2의 코드는 4_1 ~ 4_10 주피터 노트북 코드에서 확인할 수 있다.
+
+### Ko-Detect-AI-Dataset-v2 Results
+![Image](./test-v2-results-new.png)
+- v1 데이터셋에 비교해서 각 모델의 성능이 더 낮아지는 것을 확인할 수 있어서, 직접 구축한 데이터셋의 난이도 조절에 성공함을 보였다.
+- Test v2 데이터셋의 경우 **bert-kor-base** 모델이 f1 score 0.974로 가장 높은 성능을 보였는데, 데이터셋의 난이도가 상승하게 되면 한국어로 학습된 모델이 가장 높은 성능을 보이는 것을 확인할 수 있었다.
+
+### bert-kor-base 예측 결과 분석
+![Image](./test-v2-results-analysis.png)
+- Test v2 데이터셋에 대해서 가장 높은 정확도를 보인 **bert-kor-base** 모델의 실험 결과를 추가적으로 분석했다.
+- Label이 0인 Human-Written Text의 경우에는 450개 중 447개를 맞추는 것을 알 수 있고, AI-Generated Text 중에서는 o1-mini, gpt-4o-mini, gpt-4o, gpt-3.5-turbo 등의 Closed Source Model의 정확도가 상대적으로 높은 것을 확인할 수 있다.
+- 반대로, llama 3.1 8B, Qwen 2.5 0.5B 등 Open Source Model로 생성된 Text의 경우에는 정확도가 낮은 결과를 보인다.
 
 ## 7. Conclusion
-결론 내용 작성
+- 본 프로젝트에서는 한국어 AI 생성 텍스트 탐지의 중요성을 언급하고, 이를 위한 데이터셋 **Ko-Detect-AI-Dataset-v1**과 **Ko-Detect-AI-Dataset-v2**를 직접 구축했으며 다양한 모델을 활용해 성능을 평가하였다. 
+- 공개된 데이터셋을 그대로 이용하는 것이 아니라, 해당 Task에 해당하는 데이터셋이 없음을 확인하고 직접 구축했다는 점에 큰 의의가 존재한다. 
+- 데이터 다양성이 탐지 모델의 일반화 성능에 중요하다는 점을 확인했으며, bert-kor-base 모델이 가장 우수한 성능을 보였다. 
+- Future Work로는, 본 프로젝트를 통해 구축한 데이터셋은 특정 글 종류(에세이 글 평가 데이터)에 한정되었으나, 향후 뉴스, 소셜 미디어, 블로그와 같은 다양한 한국어 데이터셋을 구축하여 더 풍부하고 일반화된 한국어 AI 탐지 데이터셋을 구축할 수 있을 것이다.
