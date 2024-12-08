@@ -173,3 +173,4 @@
 - 공개된 데이터셋을 그대로 이용하는 것이 아니라, 해당 Task에 해당하는 데이터셋이 없음을 확인하고 직접 구축했다는 점에 큰 의의가 존재한다. 
 - 데이터 다양성이 탐지 모델의 일반화 성능에 중요하다는 점을 확인했으며, bert-kor-base 모델이 가장 우수한 성능을 보였다. 
 - Future Work로는, 본 프로젝트를 통해 구축한 데이터셋은 특정 글 종류(에세이 글 평가 데이터)에 한정되었으나, 향후 뉴스, 소셜 미디어, 블로그와 같은 다양한 한국어 데이터셋을 구축하여 더 풍부하고 일반화된 한국어 AI 탐지 데이터셋을 구축할 수 있을 것이다.
+- 본 프로젝트에서 직접 제작한 **Ko-Detect-AI-Dataset-v1** 데이터셋과 **Ko-Detect-AI-Dataset-v2** 데이터셋은 [`df_final_test_v1`](./df_final_test_v1.csv), [`df_final_test_v2`](./df_final_test_v2.csv)에서, **train & valid**는 [`df_final_train_v1`](./df_final_train_v1.csv), [`df_final_valid_v1`](./df_final_valid_v1.csv)에서 확인할 수 있다.
