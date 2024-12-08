@@ -84,6 +84,8 @@
     글짓기(90), 대안제시(90), 설명글(90), 주장(90), 찬성반대(90)
 
 ### 3.4 Generate AI-Generated Text
+![Image](./ex-figure.png)
+- 사람에게 제공된 에세이 프롬프트를 LLM에게 동일하게 제공하여 AI-Generated-Text를 생성한다.
 - OpenAI의 GPT-4o-mini 모델의 API를 활용하여 AI-Generated Text를 생성하고, Label 1을 부여한다.
 - 3.4~3.5에 해당하는 코드는 [`2_build_custom_dataset_AI_Generated_Text.ipynb`](./2_build_custom_dataset_AI_Generated_Text.ipynb)에서 확인할 수 있다.
 
