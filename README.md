@@ -2,7 +2,7 @@
 
 ### 한양대학교 2024년 2학기 AI+X:딥러닝 과목 프로젝트
 
-**Video Recording Link**  
+[**Video Recording Link**](https://www.youtube.com/watch?v=7D83V_KU_zs)    
 https://www.youtube.com/watch?v=7D83V_KU_zs
 
 **Team Role Distribution**  
