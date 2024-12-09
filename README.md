@@ -2,10 +2,10 @@
 
 ### 한양대학교 2024년 2학기 AI+X:딥러닝 과목 프로젝트
 
-**Video Recording Link**
+**Video Recording Link**  
 https://www.youtube.com/watch?v=7D83V_KU_zs
 
-**Team Role Distribution**
+**Team Role Distribution**  
 기계공학부 2018013309 김승희 : 코드 작성 / 커스텀 데이터셋 구축 / 실험 / 결과 분석 / 블로그 작성  / 3. Custom Ko-Detect-AI-Dataset-v1 Construction ~ 7.Conclusion 발표 녹음
 
 기계공학부 2018014002 유용준 : 데이터셋 조사 / 관련 기업 조사 / 선행 연구 조사 / 데이터셋 전처리 / 데이터 분석 / 1.Introduction ~ 2.Related Work 발표 녹음
